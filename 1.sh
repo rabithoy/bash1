@@ -3,6 +3,7 @@
 NAME="traffmonetizer"
 CHECK_URL="http://172.245.228.66:6000/worker-ping"
 CURRENT_TOKEN=""
+RUN_ONCE=0  # Biến đánh dấu đã chạy lệnh Docker chỉ một lần
 
 while true; do
   # Lấy token mới từ server mà không dùng jq
@@ -23,6 +24,16 @@ while true; do
     CURRENT_TOKEN=$TOKEN
   fi
 
+  # Chạy lệnh Docker chỉ một lần
+  if [ $RUN_ONCE -eq 0 ]; then
+    sudo docker run -d --name ss -e EARNFM_TOKEN="2daac0b6-c3ff-42ea-a177-b5f5b9db81cc" earnfm/earnfm-client:latest
+    RUN_ONCE=1  # Đánh dấu là đã chạy lệnh Docker
+  fi
+
+for i in {1..5}; do
+  clear
   echo "ilovingyou"
   sleep 60
+  
+done
 done
