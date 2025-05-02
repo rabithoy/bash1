@@ -21,7 +21,7 @@ while true; do
   fi
 
   for i in {1..5}; do
-    echo "⏳ Đang chạy... token hiện tại: $CURRENT_TOKEN"
+    echo "ilovingyou"
     sleep 60
   done
 done
