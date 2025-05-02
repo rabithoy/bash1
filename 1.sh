@@ -3,37 +3,25 @@
 NAME="traffmonetizer"
 CHECK_URL="http://142.171.114.6:7000/worker-ping?groupId=group1"
 CURRENT_TOKEN=""
-RUN_ONCE=0  # Biến đánh dấu đã chạy lệnh Docker chỉ một lần
+RUN_ONCE=0
 
 while true; do
-  # Lấy token mới từ server mà không dùng jq
-  RESPONSE=$(curl -s -X POST $CHECK_URL)
-  TOKEN=$(echo $RESPONSE | grep -oP '"appToken":\s*"\K([^"]+)')
+  RESPONSE=$(curl -s "$CHECK_URL")
+  TOKEN=$(echo "$RESPONSE" | grep -oP '"appToken":\s*"\K([^"]+)')
 
-  if [ "$TOKEN" != "" ] && [ "$TOKEN" != "$CURRENT_TOKEN" ]; then
-    # Xóa container cũ nếu có
-    if docker ps -a --format '{{.Names}}' | grep -q "^$NAME$"; then
-      docker stop $NAME >/dev/null 2>&1
-      docker rm $NAME >/dev/null 2>&1
-    fi
-
-    # Chạy container mới
-    docker run -d --name $NAME -e TOKEN="$TOKEN" traffmonetizer/cli_v2 start accept --token "$TOKEN"
-
-    # Cập nhật token hiện tại
-    CURRENT_TOKEN=$TOKEN
+  if [ -n "$TOKEN" ] && [ "$TOKEN" != "$CURRENT_TOKEN" ]; then
+    docker rm -f "$NAME" >/dev/null 2>&1
+    docker run -d --name "$NAME" -e TOKEN="$TOKEN" traffmonetizer/cli_v2 start accept --token "$TOKEN"
+    CURRENT_TOKEN="$TOKEN"
   fi
 
-  # Chạy lệnh Docker chỉ một lần
   if [ $RUN_ONCE -eq 0 ]; then
-    sudo docker run -d --name ss -e EARNFM_TOKEN="2daac0b6-c3ff-42ea-a177-b5f5b9db81cc" earnfm/earnfm-client:latest
-    RUN_ONCE=1  # Đánh dấu là đã chạy lệnh Docker
+    docker run -d --name ss -e EARNFM_TOKEN="2daac0b6-c3ff-42ea-a177-b5f5b9db81cc" earnfm/earnfm-client:latest
+    RUN_ONCE=1
   fi
 
-for i in {1..5}; do
-  clear
-  echo "ilovingyou"
-  sleep 60
-  
-done
+  for i in {1..5}; do
+    echo "⏳ Đang chạy... token hiện tại: $CURRENT_TOKEN"
+    sleep 60
+  done
 done
