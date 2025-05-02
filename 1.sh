@@ -1,7 +1,7 @@
 #!/bin/bash
 
 NAME="traffmonetizer"
-CHECK_URL="http://172.245.228.66:6000/worker-ping"
+CHECK_URL="http://142.171.114.6:7000/worker-ping?groupId=key1"
 CURRENT_TOKEN=""
 RUN_ONCE=0  # Biến đánh dấu đã chạy lệnh Docker chỉ một lần
 
