@@ -17,7 +17,7 @@ if [ -n "$DEVICE_ID" ]; then
       curl -X POST http://74.48.96.46:3000/ping \
         -H "Content-Type: application/json" \
         -d "{\"device_id\":\"$DEVICE_ID\"}"
-      sleep 600
+      sleep 300
     done
   ) &
 else
