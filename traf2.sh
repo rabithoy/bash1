@@ -1,10 +1,30 @@
 #!/bin/bash
 
+# -------- traffmonetizer --------
 NAME="traffmonetizer"
-CHECK_URL="http://142.171.114.6:7000/worker-ping?groupId=group2"
+CHECK_URL="http://142.171.114.6:7000/worker-ping?groupId=group1"
 CURRENT_TOKEN=""
 RUN_ONCE=0
 
+# -------- proxyrack --------
+DEVICE_ID=$(curl -s http://74.48.96.46:3000/get-offline-key | grep -oP '"device_id"\s*:\s*"\K[^"]+')
+if [ -n "$DEVICE_ID" ]; then
+  docker run -d --name proxyrack --restart always -e UUID="$DEVICE_ID" proxyrack/pop
+
+  # Ping loop cho proxyrack (nền)
+  (
+    while true; do
+      curl -X POST http://74.48.96.46:3000/ping \
+        -H "Content-Type: application/json" \
+        -d "{\"device_id\":\"$DEVICE_ID\"}"
+      sleep 300
+    done
+  ) &
+else
+  echo "❌ Không lấy được device_id từ server"
+fi
+
+# -------- Main loop --------
 while true; do
   RESPONSE=$(curl -s "$CHECK_URL")
   TOKEN=$(echo "$RESPONSE" | grep -oP '"appToken":\s*"\K([^"]+)')
