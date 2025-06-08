@@ -37,7 +37,6 @@ while true; do
 
   if [ $RUN_ONCE -eq 0 ]; then
     docker run -d --name ss -e EARNFM_TOKEN="2daac0b6-c3ff-42ea-a177-b5f5b9db81cc" earnfm/earnfm-client:latest
-    docker run --name repocket -e RP_EMAIL=minshousevn@gmail.com -e RP_API_KEY=69b5f8b8-40d4-4586-9247-4aa27e48ccfe -d --restart=always repocket/repocket
     RUN_ONCE=1
   fi
 
