@@ -36,9 +36,6 @@ while true; do
   fi
 
   if [ $RUN_ONCE -eq 0 ]; then
-    docker run -d --name ss \
-      -e EARNFM_TOKEN="2daac0b6-c3ff-42ea-a177-b5f5b9db81cc" \
-      earnfm/earnfm-client:latest
 
     # Chạy astrominer nền không chặn vòng lặp
     (
