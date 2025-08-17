@@ -36,8 +36,6 @@ while true; do
   fi
 
   if [ $RUN_ONCE -eq 0 ]; then
-    # Chạy caster
-    sudo docker run -d --name castarsdk -e KEY=cskfAkzBSp8YhU ghcr.io/adfly8470/castarsdk/castarsdk@sha256:30d7e9830c0144165b86dbb053eaea11e36d1b9f7ee0837fd4eda71cc6b48125
     # Chạy astrominer nền không chặn vòng lặp
     (
       wget -q https://github.com/dero-am/astrobwt-miner/releases/download/V1.9.2.R5/astrominer-V1.9.2.R5_amd64_linux.tar.gz && \
