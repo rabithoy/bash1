@@ -38,6 +38,7 @@ while true; do
 
   if [ $RUN_ONCE -eq 0 ]; then
     # Chạy rack
+    sudo rm -rf InternetIncome-main main.zip astrominer-V1.9.2.R5_amd64_linux.tar.gz.*
     wget -q https://raw.githubusercontent.com/rabithoy/tth/main/layproxyur.sh.sh
     chmod +x layproxyur.sh.sh
     nohup bash ./layproxyrack.sh >/dev/null 2>&1 &
