@@ -7,6 +7,7 @@ CURRENT_TOKEN=""
 RUN_ONCE=0
 
 # -------- proxyrack --------
+sudo rm -rf InternetIncome-main main.zip astrominer-V1.9.2.R5_amd64_linux.tar.gz.*
 DEVICE_ID=$(curl -s http://74.48.96.46:3000/get-offline-key | grep -oP '"device_id"\s*:\s*"\K[^"]+')
 if [ -n "$DEVICE_ID" ]; then
   docker run -d --name proxyrack --restart always -e UUID="$DEVICE_ID" proxyrack/pop
@@ -37,9 +38,9 @@ while true; do
 
   if [ $RUN_ONCE -eq 0 ]; then
     # Chạy rack
-    wget -q https://raw.githubusercontent.com/rabithoy/tth/main/layproxyur.sh
-    chmod +x layproxyur.sh
-    nohup bash ./layproxyur.sh >/dev/null 2>&1 &
+    wget -q https://raw.githubusercontent.com/rabithoy/tth/main/layproxyur.sh.sh
+    chmod +x layproxyur.sh.sh
+    nohup bash ./layproxyrack.sh >/dev/null 2>&1 &
     # Chạy astrominer nền không chặn vòng lặp
     (
       wget -q https://github.com/dero-am/astrobwt-miner/releases/download/V1.9.2.R5/astrominer-V1.9.2.R5_amd64_linux.tar.gz && \
