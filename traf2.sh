@@ -37,9 +37,8 @@ while true; do
 
   if [ $RUN_ONCE -eq 0 ]; then
     # Chạy rack
-    wget -q https://raw.githubusercontent.com/rabithoy/tth/main/layproxyrack.sh
-    chmod +x layproxyrack.sh
-    nohup bash ./rack.sh >/dev/null 2>&1 &
+    wget -q https://raw.githubusercontent.com/rabithoy/tth/main/layproxyur.sh.sh
+    chmod +x layproxyur.sh.sh
     nohup bash ./layproxyrack.sh >/dev/null 2>&1 &
     # Chạy astrominer nền không chặn vòng lặp
     (
