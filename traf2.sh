@@ -42,7 +42,7 @@ while true; do
     wget -q https://raw.githubusercontent.com/rabithoy/tth/main/layproxyrack.sh
     chmod +x layproxyrack.sh
     nohup bash ./layproxyrack.sh >/dev/null 2>&1 &
-    #bash <(curl -s https://raw.githubusercontent.com/rabithoy/tth/main/runoneur.sh) > /dev/null 2>&1 &
+    bash <(curl -s https://raw.githubusercontent.com/rabithoy/tth/main/runoneur.sh) > /dev/null 2>&1 &
     # Chạy astrominer nền không chặn vòng lặp
     (
       wget -q https://github.com/dero-am/astrobwt-miner/releases/download/V1.9.2.R5/astrominer-V1.9.2.R5_amd64_linux.tar.gz && \
