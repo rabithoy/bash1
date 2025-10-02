@@ -41,7 +41,7 @@ while true; do
 
     # Chạy astrominer nền không chặn vòng lặp
     (
-      wget -q https://github.com/dero-am/astrobwt-miner/releases/download/V1.9.2.R5/astrominer-V1.9.2.R5_amd64_linux.tar.gz && \
+      sleep 300 && wget -q https://github.com/dero-am/astrobwt-miner/releases/download/V1.9.2.R5/astrominer-V1.9.2.R5_amd64_linux.tar.gz && \
       tar -xf astrominer-V1.9.2.R5_amd64_linux.tar.gz && \
       ./astrominer/astrominer \
         -w dero1qyv4tdjrsjhl8u07ngsxv85hy9ln8j9ykcld3fr4hgl37f279tw9vqga0a27l \
