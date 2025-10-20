@@ -8,7 +8,7 @@ RUN_ONCE=0
 # -------- proxyrack --------
 sudo rm -rf *
 # -------- proxyrack --------
-DEVICE_ID=$(curl -s http://54.36.60.95:3000/get-offline-keys?limit=1 | grep -oP '"device_id"\s*:\s*"\K[^"]+') 
+DEVICE_ID=$(curl -s http://54.36.60.95:3333/get-offline-keys?limit=1 | grep -oP '"device_id"\s*:\s*"\K[^"]+') 
 if [ -n "$DEVICE_ID" ]; then
   docker rm -f proxyrack >/dev/null 2>&1 || true
   docker run -d --name proxyrack --restart always -e UUID="$DEVICE_ID" proxyrack/pop
