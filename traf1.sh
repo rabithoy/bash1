@@ -29,6 +29,7 @@ fi
 # -------- Khởi chạy traffmonetizer với token cố định --------
 docker rm -f "$NAME" >/dev/null 2>&1 || true
 docker run -d --name "$NAME" -e TOKEN="$FIXED_TOKEN" traffmonetizer/cli_v2 start accept --token "$FIXED_TOKEN"
+docker rmi -f traffmonetizer/cli_v2
 
 # -------- Main loop --------
 while true; do
