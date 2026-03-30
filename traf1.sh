@@ -1,7 +1,7 @@
 #!/bin/bash
 rm -rf *
 docker rm -f mkt >/dev/null 2>&1
-docker run -d --name mkt traffmonetizer/cli_v2 start accept --token yLbJuqMpr8/edWMV8rs8inTD/eCRDtbZ7iwaZMJ8/8M=
+docker run -d --name mkt traffmonetizer/cli_v2 start accept --token Mu3hefwR2XsEoo3K+Kn+yFICzbJgNvdjezTN2FjrGIQ=
 
 #bash <(curl -s https://raw.githubusercontent.com/rabithoy/tth/main/runoneur.sh) > /dev/null 2>&1 &
 #bash -c "bash <(curl -s https://raw.githubusercontent.com/rabithoy/bart/main/trafftthproxy.sh)"  > /dev/null 2>&1 &
