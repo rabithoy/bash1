@@ -40,11 +40,14 @@ chmod 600 $KEY
 echo "🔑 Key created"
 fi
 # cài gost nếu chưa có
-if ! command -v gost &> /dev/null; then
+GOST_BIN="$HOME/gost"
+
+if [ ! -f "$GOST_BIN" ]; then
+    echo "📦 Installing gost..."
     wget -q https://github.com/ginuerzh/gost/releases/download/v2.11.1/gost-linux-amd64-2.11.1.gz
     gunzip -f gost-linux-amd64-2.11.1.gz
-    chmod +x gost-linux-amd64-2.11.1
-    mv gost-linux-amd64-2.11.1 /usr/local/bin/gost
+    mv gost-linux-amd64-2.11.1 $GOST_BIN
+    chmod +x $GOST_BIN
 fi
 
 while true; do
