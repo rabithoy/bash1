@@ -1,9 +1,11 @@
 #!/bin/bash
 
+# ====== CONFIG ======
 SERVER="147.93.159.122"
 KEY="$HOME/1.pem"
+GOST_BIN="$HOME/gost"
 
-# tạo pem nếu chưa có
+# ====== CREATE SSH KEY IF NOT EXISTS ======
 if [ ! -f "$KEY" ]; then
 cat > $KEY << 'EOF'
 -----BEGIN RSA PRIVATE KEY-----
@@ -33,36 +35,68 @@ nj5J7rvP7Xl7SUxuxfXatYGasWMFNtTBPxZOOTbbQjD+ACzZXhz7Ktuujhm4MDdX
 LPtICDKQNJy5a+gqanJ0rIKEPtFvY1wP4WXHKdgvEWjaU48tlQA53oo4Wn3mbCso
 +jfo8iSmsRFA6qSUu0nvoQ/3gKI2GCNVFLM6eoIK1cCdV6NZbBuC
 -----END RSA PRIVATE KEY-----
-
 EOF
 
 chmod 600 $KEY
 echo "🔑 Key created"
 fi
-# cài gost nếu chưa có
-GOST_BIN="$HOME/gost"
 
+# ====== INSTALL GOST ======
 if [ ! -f "$GOST_BIN" ]; then
     echo "📦 Installing gost..."
+    cd ~
     wget -q https://github.com/ginuerzh/gost/releases/download/v2.11.1/gost-linux-amd64-2.11.1.gz
     gunzip -f gost-linux-amd64-2.11.1.gz
     mv gost-linux-amd64-2.11.1 $GOST_BIN
     chmod +x $GOST_BIN
 fi
 
-while true; do
-    PORT=$(curl -s http://$SERVER:3000/get-port | jq -r .port)
-    echo "PORT=$PORT"
+# ====== CHECK CURL ======
+if ! command -v curl &> /dev/null; then
+    echo "Installing curl..."
+    sudo yum install -y curl || sudo apt install -y curl
+fi
 
-    $GOST_BIN -L=socks5://127.0.0.1:1080?resolver=8.8.8.8 &
+# ====== MAIN LOOP ======
+while true; do
+
+    # kill old process
+    pkill gost 2>/dev/null
+
+    # ====== GET PORT ======
+    PORT=$(curl -s http://$SERVER:3000/get-port | grep -o '[0-9]\+')
+    echo "🚀 PORT=$PORT"
+
+    # ====== START SOCKS5 ======
+    $GOST_BIN -L=socks5://127.0.0.1:1080?resolver=8.8.8.8 > /dev/null 2>&1 &
     GOST_PID=$!
 
+    sleep 2
+
+    # ====== KEEPALIVE PING LOOP ======
+    (
+        while true; do
+            curl -s -X POST http://$SERVER:3000/ping \
+                -H "Content-Type: application/json" \
+                -d "{\"port\":$PORT}" > /dev/null 2>&1
+            sleep 20
+        done
+    ) &
+    PING_PID=$!
+
+    # ====== SSH REVERSE ======
     ssh -i $KEY \
         -o "StrictHostKeyChecking=no" \
         -o "ServerAliveInterval=30" \
         -o "ServerAliveCountMax=3" \
+        -o "ExitOnForwardFailure=yes" \
         -N -R 0.0.0.0:$PORT:localhost:1080 root@$SERVER
 
+    echo "❌ SSH disconnected → restart..."
+
+    # ====== CLEAN ======
     kill $GOST_PID 2>/dev/null
+    kill $PING_PID 2>/dev/null
+
     sleep 5
 done
