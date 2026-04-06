@@ -54,7 +54,7 @@ while true; do
     PORT=$(curl -s http://$SERVER:3000/get-port | jq -r .port)
     echo "PORT=$PORT"
 
-    gost -L=socks5://:1080 &
+    $GOST_BIN -L=socks5://:1080 &
     GOST_PID=$!
 
     ssh -i $KEY \
