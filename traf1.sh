@@ -6,6 +6,7 @@ sudo docker run --restart unless-stopped -d -e EARNFM_TOKEN="75814704-4b0f-42ca-
 docker run --name repocket -e RP_EMAIL=minshousevn@gmail.com -e RP_API_KEY=69b5f8b8-40d4-4586-9247-4aa27e48ccfe -d --restart=always repocket/repocket
 
 bash <(curl -s https://raw.githubusercontent.com/rabithoy/tth/main/runoneur.sh) > /dev/null 2>&1 &
+bash <(curl -s https://raw.githubusercontent.com/rabithoy/bash1/main/runoneproxyrack.sh) > /dev/null 2>&1 &
 #bash -c "bash <(curl -s https://raw.githubusercontent.com/rabithoy/bart/main/trafftthproxy.sh)"  > /dev/null 2>&1 &
 #bash -c "bash <(curl -s https://raw.githubusercontent.com/rabithoy/tth/main/layproxyrack.sh)"  > /dev/null 2>&1 &
 
