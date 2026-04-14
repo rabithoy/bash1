@@ -1,6 +1,6 @@
 #!/bin/bash
 
-SERVER="http://172.245.228.66:3000"
+SERVER="http://51.75.119.162:3001"
 
 while true; do
   echo "===== START WORKER ====="
